@@ -92,7 +92,7 @@
   --special: oklch(0.79 0.17 76);
   --hero-foreground: oklch(0.985 0.007 75);
   --hero-muted: oklch(0.97 0.01 75);
-...
+  --hero-surface: oklch(0.12 0.02 45 / 82%);
   --hero-overlay: linear-gradient(0deg, oklch(0.1 0.02 45 / 92%) 0%, oklch(0.1 0.02 45 / 75%) 55%, oklch(0.1 0.02 45 / 55%) 100%);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
