@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArrowDown, Clock3, MapPin, Phone, ShoppingBag } from "lucide-react";
 import { useState } from "react";
 import heroImage from "../assets/cc-deli-hero.jpg";
+import logo from "../assets/c_c_logo.jpg.asset.json";
 
 const DAILY_SPECIAL = "Today’s hot special: Ask us what’s fresh from the kitchen";
 const PHONE_NUMBER = "+18605550101";
@@ -78,8 +79,9 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
         <div className="mx-auto grid h-16 max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 sm:h-20 sm:px-6 lg:px-10">
-          <a href="#top" className="min-w-0 font-display text-xl leading-none font-black uppercase sm:text-2xl">
-            <span className="text-primary">C&amp;C</span> Delicatessen
+          <a href="#top" className="flex min-w-0 items-center gap-2 font-display text-lg leading-none font-black uppercase sm:text-2xl">
+            <img src={logo.url} alt="C&C Delicatessen logo" width={48} height={48} className="size-11 shrink-0 rounded-full sm:size-14" />
+            <span className="truncate"><span className="text-primary">C&amp;C</span> Deli</span>
           </a>
           <div className="flex shrink-0 items-center gap-2 sm:gap-6">
             <nav aria-label="Primary navigation" className="hidden items-center gap-6 md:flex">
@@ -115,9 +117,9 @@ function Index() {
             fetchPriority="high"
             className="absolute inset-0 h-full w-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-hero-overlay" />
+          <div className="absolute inset-0" style={{ backgroundImage: "var(--hero-overlay)" }} />
           <div className="relative mx-auto flex min-h-[calc(100svh-6rem)] max-w-7xl items-end px-4 py-12 sm:min-h-[calc(100svh-7rem)] sm:items-center sm:px-6 sm:py-20 lg:px-10">
-            <div className="max-w-2xl text-hero-foreground">
+            <div className="max-w-2xl text-hero-foreground [text-shadow:0_2px_12px_rgb(0_0_0/0.6)]">
               <p className="mb-4 text-sm font-black uppercase tracking-[0.14em] text-special sm:text-base">
                 New Milford’s neighborhood deli
               </p>
