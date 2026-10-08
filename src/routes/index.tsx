@@ -117,7 +117,7 @@ function Index() {
             fetchPriority="high"
             className="absolute inset-0 h-full w-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-hero-overlay" />
+          <div className="absolute inset-0" style={{ backgroundImage: "var(--hero-overlay)" }} />
           <div className="relative mx-auto flex min-h-[calc(100svh-6rem)] max-w-7xl items-end px-4 py-12 sm:min-h-[calc(100svh-7rem)] sm:items-center sm:px-6 sm:py-20 lg:px-10">
             <div className="max-w-2xl text-hero-foreground [text-shadow:0_2px_12px_rgb(0_0_0/0.6)]">
               <p className="mb-4 text-sm font-black uppercase tracking-[0.14em] text-special sm:text-base">
