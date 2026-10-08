@@ -95,6 +95,10 @@ function Index() {
             </a>
           </div>
         </div>
+        <nav aria-label="Mobile navigation" className="grid grid-cols-2 border-t border-border md:hidden">
+          <a className="min-h-10 border-r border-border py-2 text-center text-xs font-black uppercase" href="#menu">Menu</a>
+          <a className="min-h-10 py-2 text-center text-xs font-black uppercase" href="#location">Location</a>
+        </nav>
         <div className="bg-foreground px-4 py-2 text-center text-xs font-bold tracking-wide text-background sm:text-sm">
           <span className="mr-2 text-special">HOT TODAY</span>
           {DAILY_SPECIAL}
