@@ -1,24 +1,234 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { ArrowDown, Clock3, MapPin, Phone, ShoppingBag } from "lucide-react";
+import { useState } from "react";
+import heroImage from "../assets/cc-deli-hero.jpg";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const DAILY_SPECIAL = "Today’s hot special: Ask us what’s fresh from the kitchen";
+const PHONE_NUMBER = "+18605550101";
+
+const menuSections = {
+  deli: {
+    label: "Classic Deli",
+    eyebrow: "Made to order",
+    title: "The classics, done right.",
+    items: [
+      {
+        name: "Bacon, Egg & Cheese",
+        description: "Crisp bacon, two eggs and melted American on a hard roll.",
+      },
+      {
+        name: "Italian Combo",
+        description: "Ham, salami, capicola and provolone with lettuce, tomato and peppers.",
+      },
+      {
+        name: "Fresh Wraps",
+        description: "Your choice of deli meat, cheese and crisp vegetables, rolled to order.",
+      },
+    ],
+  },
+  latin: {
+    label: "Latin & Caribbean",
+    eyebrow: "Hot food counter",
+    title: "A real meal, ready when you are.",
+    items: [
+      {
+        name: "Ecuadorian Platters",
+        description: "A generous daily plate with seasoned rice, beans and rotating proteins.",
+      },
+      {
+        name: "Beef Stew",
+        description: "Slow-simmered beef with potatoes, vegetables and rich house seasoning.",
+      },
+      {
+        name: "Tripe",
+        description: "Tender, deeply seasoned tripe prepared in our traditional house style.",
+      },
+    ],
+  },
+} as const;
+
+type MenuSection = keyof typeof menuSections;
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "C&C Delicatessen | New Milford, CT" },
+      {
+        name: "description",
+        content:
+          "Classic deli favorites and Latin & Caribbean hot food at C&C Delicatessen in New Milford, Connecticut.",
+      },
+      { property: "og:title", content: "C&C Delicatessen | New Milford, CT" },
+      {
+        property: "og:description",
+        content: "Big sandwiches, hot plates and local flavor—ready when you are.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const [activeMenu, setActiveMenu] = useState<MenuSection>("deli");
+  const menu = menuSections[activeMenu];
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
+        <div className="mx-auto grid h-16 max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 sm:h-20 sm:px-6 lg:px-10">
+          <a href="#top" className="min-w-0 font-display text-xl leading-none font-black uppercase sm:text-2xl">
+            <span className="text-primary">C&amp;C</span> Delicatessen
+          </a>
+          <div className="flex shrink-0 items-center gap-2 sm:gap-6">
+            <nav aria-label="Primary navigation" className="hidden items-center gap-6 md:flex">
+              <a className="text-sm font-bold uppercase hover:text-primary" href="#menu">Menu</a>
+              <a className="text-sm font-bold uppercase hover:text-primary" href="#location">Location</a>
+            </nav>
+            <a
+              href={`tel:${PHONE_NUMBER}`}
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-primary px-4 text-sm font-extrabold text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:px-5"
+            >
+              <Phone aria-hidden="true" className="size-4" />
+              Call Now
+            </a>
+          </div>
+        </div>
+        <nav aria-label="Mobile navigation" className="grid grid-cols-2 border-t border-border md:hidden">
+          <a className="min-h-10 border-r border-border py-2 text-center text-xs font-black uppercase" href="#menu">Menu</a>
+          <a className="min-h-10 py-2 text-center text-xs font-black uppercase" href="#location">Location</a>
+        </nav>
+        <div className="bg-foreground px-4 py-2 text-center text-xs font-bold tracking-wide text-background sm:text-sm">
+          <span className="mr-2 text-special">HOT TODAY</span>
+          {DAILY_SPECIAL}
+        </div>
+      </header>
+
+      <main id="top">
+        <section className="relative isolate min-h-[calc(100svh-6rem)] overflow-hidden bg-foreground sm:min-h-[calc(100svh-7rem)]">
+          <img
+            src={heroImage}
+            alt="An overstuffed Italian deli sandwich with fried plantains"
+            width={1600}
+            height={1008}
+            fetchPriority="high"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-hero-overlay" />
+          <div className="relative mx-auto flex min-h-[calc(100svh-6rem)] max-w-7xl items-end px-4 py-12 sm:min-h-[calc(100svh-7rem)] sm:items-center sm:px-6 sm:py-20 lg:px-10">
+            <div className="max-w-2xl text-hero-foreground">
+              <p className="mb-4 text-sm font-black uppercase tracking-[0.14em] text-special sm:text-base">
+                New Milford’s neighborhood deli
+              </p>
+              <h1 className="font-display text-5xl leading-[0.95] font-black uppercase sm:text-7xl lg:text-8xl">
+                Big flavor.<br />No waiting around.
+              </h1>
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-hero-muted sm:text-xl">
+                Stacked deli sandwiches and homestyle Latin hot food, made fresh for your day.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 min-[420px]:flex-row">
+                <a
+                  href="#menu"
+                  className="inline-flex min-h-14 items-center justify-center gap-2 rounded-md bg-primary px-6 text-base font-extrabold text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                >
+                  <ShoppingBag aria-hidden="true" className="size-5" /> Order Online
+                </a>
+                <a
+                  href="#menu"
+                  className="inline-flex min-h-14 items-center justify-center gap-2 rounded-md border border-hero-foreground/60 bg-hero-surface px-6 text-base font-extrabold text-hero-foreground backdrop-blur-sm transition-colors hover:bg-hero-surface/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                >
+                  View Menu <ArrowDown aria-hidden="true" className="size-5" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="menu" className="scroll-mt-28 border-b border-border bg-background px-4 py-16 sm:px-6 sm:py-24 lg:px-10">
+          <div className="mx-auto max-w-6xl">
+            <div className="max-w-2xl">
+              <p className="text-sm font-black uppercase tracking-[0.14em] text-primary">Our menu</p>
+              <h2 className="mt-3 font-display text-4xl leading-none font-black uppercase sm:text-6xl">Pick your craving.</h2>
+            </div>
+
+            <div className="mt-10 grid grid-cols-2 border-b border-border" role="tablist" aria-label="Menu categories">
+              {(Object.keys(menuSections) as MenuSection[]).map((key) => (
+                <button
+                  key={key}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeMenu === key}
+                  aria-controls="menu-panel"
+                  onClick={() => setActiveMenu(key)}
+                  className={`min-h-16 border-b-4 px-3 py-3 text-left text-sm font-extrabold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:text-lg ${
+                    activeMenu === key
+                      ? "border-primary text-primary"
+                      : "border-transparent text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {menuSections[key].label}
+                  {key === "latin" && <span className="block text-xs font-bold sm:inline sm:pl-1">Hot Food</span>}
+                </button>
+              ))}
+            </div>
+
+            <div id="menu-panel" role="tabpanel" className="grid gap-10 py-10 md:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] md:py-14">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.14em] text-primary">{menu.eyebrow}</p>
+                <h3 className="mt-3 max-w-sm font-display text-3xl leading-tight font-black uppercase sm:text-4xl">{menu.title}</h3>
+              </div>
+              <div className="divide-y divide-border border-y border-border">
+                {menu.items.map((item, index) => (
+                  <article key={item.name} className="grid grid-cols-[auto_minmax(0,1fr)] gap-4 py-6 sm:gap-6">
+                    <span className="font-display text-sm font-black text-primary">0{index + 1}</span>
+                    <div className="min-w-0">
+                      <h4 className="font-display text-xl font-black uppercase sm:text-2xl">{item.name}</h4>
+                      <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">{item.description}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="location" className="scroll-mt-28 bg-foreground text-background">
+          <div className="mx-auto grid max-w-7xl lg:grid-cols-2">
+            <div className="px-4 py-16 sm:px-10 sm:py-20 lg:px-14 lg:py-24">
+              <p className="text-sm font-black uppercase tracking-[0.14em] text-special">Come hungry</p>
+              <h2 className="mt-3 font-display text-4xl leading-none font-black uppercase sm:text-6xl">Find us in<br />New Milford.</h2>
+              <div className="mt-10 space-y-7 border-t border-background/20 pt-8">
+                <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-4">
+                  <MapPin aria-hidden="true" className="mt-0.5 size-6 shrink-0 text-special" />
+                  <div><p className="font-bold">40 Danbury Rd</p><p className="text-background/65">New Milford, CT</p></div>
+                </div>
+                <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-4">
+                  <Clock3 aria-hidden="true" className="mt-0.5 size-6 shrink-0 text-special" />
+                  <div className="space-y-1">
+                    <p><span className="inline-block w-24 font-bold">Mon–Sat</span> 5am–8pm</p>
+                    <p><span className="inline-block w-24 font-bold">Sunday</span> 6am–3pm</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="map-grid flex min-h-80 items-center justify-center p-8 lg:min-h-full" aria-label="Google Maps placeholder">
+              <div className="border border-foreground/15 bg-background px-8 py-7 text-center text-foreground shadow-xl">
+                <MapPin aria-hidden="true" className="mx-auto size-8 text-primary" />
+                <p className="mt-3 font-display text-lg font-black uppercase">40 Danbury Rd</p>
+                <p className="mt-1 text-sm text-muted-foreground">Google Map coming soon</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-background/15 bg-foreground px-4 py-6 text-background sm:px-6 lg:px-10">
+        <div className="mx-auto flex max-w-7xl flex-col gap-2 text-sm sm:flex-row sm:items-center sm:justify-between">
+          <p className="font-display font-black uppercase">C&amp;C Delicatessen</p>
+          <p className="text-background/60">40 Danbury Rd · New Milford, CT</p>
+        </div>
+      </footer>
     </div>
   );
 }
