@@ -4,54 +4,467 @@ import { useState } from "react";
 import heroImage from "../assets/cc-deli-hero.jpg";
 import logo from "../assets/c_c_logo.jpg.asset.json";
 import { Button } from "@/components/ui/button";
+import { RestaurantMenu, type MenuCategory, type MenuGroup } from "@/components/restaurant-menu";
 
 const DAILY_SPECIAL = "Today’s hot special: Ask us what’s fresh from the kitchen";
 const PHONE_NUMBER = "+18605550101";
 const HERO_TAGLINE = "Deli classics. Latin soul.";
 const HERO_DESCRIPTION = "Stacked deli sandwiches and homestyle Latin hot food, made fresh for your day.";
 
-const menuSections = {
-  deli: {
-    label: "Classic Deli",
-    eyebrow: "Made to order",
-    title: "The classics, done right.",
-    items: [
+export const MENU_CATEGORIES: MenuCategory[] = [
+  {
+    "id": "breakfast",
+    "label": "Breakfast",
+    "group": "breakfast",
+    "items": [
       {
-        name: "Bacon, Egg & Cheese",
-        description: "Crisp bacon, two eggs and melted American on a hard roll.",
+        "name": "2 Eggs On A Roll",
+        "price": 3.0,
+        "description": "Two eggs, gently cooked, served on a soft roll."
       },
       {
-        name: "Italian Combo",
-        description: "Ham, salami, capicola and provolone with lettuce, tomato and peppers.",
+        "name": "Bacon, Ham Or Sausage And Eggs On A Roll With Cheese",
+        "price": 4.0,
+        "description": "On bagel, bagel with cream cheese or jelly, croissant, wrap or butter roll for an additional price. With extra meat for an additional price."
       },
       {
-        name: "Fresh Wraps",
-        description: "Your choice of deli meat, cheese and crisp vegetables, rolled to order.",
+        "name": "Egg Platter",
+        "price": 6.75,
+        "description": "2 eggs with bacon, ham or sausage with home fries and side toast."
       },
-    ],
+      {
+        "name": "3 Stack Of Pancakes Or French Toast",
+        "price": 5.25,
+        "description": "Stacked pancakes or French toast, served with choice of preparation style."
+      },
+      {
+        "name": "Side Home Fries",
+        "price": 3.0,
+        "description": "Crispy Homestyle Fries, Perfectly Seasoned and Golden Brown"
+      }
+    ]
   },
-  latin: {
-    label: "Latin & Caribbean",
-    eyebrow: "Hot food counter",
-    title: "A real meal, ready when you are.",
-    items: [
+  {
+    "id": "specialty-breakfast",
+    "label": "Specialty Breakfast",
+    "group": "breakfast",
+    "items": [
       {
-        name: "Ecuadorian Platters",
-        description: "A generous daily plate with seasoned rice, beans and rotating proteins.",
+        "name": "Western Wrap",
+        "price": 5.75,
+        "description": "Scrambled eggs, American cheese with ham, onions and peppers."
       },
       {
-        name: "Beef Stew",
-        description: "Slow-simmered beef with potatoes, vegetables and rich house seasoning.",
+        "name": "C&C Wrap",
+        "price": 5.75,
+        "description": "Scrambled eggs with cheddar cheese, bacon, onions, peppers and tomato."
       },
       {
-        name: "Tripe",
-        description: "Tender, deeply seasoned tripe prepared in our traditional house style.",
+        "name": "Main St Wrap",
+        "price": 9.25,
+        "description": "Bacon, eggs, cheese, hashbrowns, chicken cutlet, hot sauce."
       },
-    ],
+      {
+        "name": "Veggie Lover",
+        "price": 5.5,
+        "description": "Scrambled eggs, Monterey jack pepper, mushrooms, tomato and broccoli."
+      },
+      {
+        "name": "Meat Lover",
+        "price": 6.75,
+        "description": "Eggs with bacon, ham, sausage and cheese on a roll."
+      },
+      {
+        "name": "Blanca's Special",
+        "price": 7.75,
+        "description": "Ham, eggs, cheese, onions and peppers, quesadilla."
+      },
+      {
+        "name": "C&C Burrito",
+        "price": 6.75,
+        "description": "Eggs, cheddar cheese, salsa, home fries with bacon or sausage."
+      },
+      {
+        "name": "El Rey",
+        "price": 7.75,
+        "description": "Steak, eggs, home fries, spinach, served on a plate."
+      }
+    ]
   },
-} as const;
-
-type MenuSection = keyof typeof menuSections;
+  {
+    "id": "hot-sandwiches",
+    "label": "Hot Sandwiches",
+    "group": "deli",
+    "items": [
+      {
+        "name": "Meatball Parmesan",
+        "price": 9.75,
+        "description": "Meatball parmesan sandwich, served on a choice of roll or sub, with melted cheese."
+      },
+      {
+        "name": "Eggplant Parmesan",
+        "price": 9.75,
+        "description": "Eggplant Parmesan in choice of roll or sub, layered with marinara sauce, melted mozzarella."
+      },
+      {
+        "name": "Chicken Cutlet Parmesan",
+        "price": 9.75,
+        "description": "Chicken cutlet topped with marinara sauce and melted Parmesan cheese. Choice of roll or sub."
+      },
+      {
+        "name": "Sausage & Peppers",
+        "price": 9.75,
+        "description": "Sausage & peppers on your choice of roll or sub."
+      },
+      {
+        "name": "Hot Roast Beef & Gravy",
+        "price": 9.75,
+        "description": "Hot roast beef smothered in gravy, served on your choice of roll or sub."
+      },
+      {
+        "name": "Hot Turkey & Gravy",
+        "price": 9.75,
+        "description": "Sliced turkey smothered in gravy, choice of roll or sub."
+      },
+      {
+        "name": "Homemade Roast Pork",
+        "price": 9.75,
+        "description": "Homemade roast pork on your choice of roll or sub."
+      }
+    ]
+  },
+  {
+    "id": "specialty-sandwiches",
+    "label": "Specialty Sandwiches",
+    "group": "deli",
+    "items": [
+      {
+        "name": "Donnie Brasco",
+        "price": 9.75,
+        "description": "Genoa salami, ham capicola, provolone, fried eggplant, lettuce, tomato and cheese, roasted peppers, oil, vinegar on a sub roll."
+      },
+      {
+        "name": "Eggplant Supreme",
+        "price": 7.75,
+        "description": "Fried eggplant, fresh mozzarella, roasted peppers, oil, vinegar and basil on a kaiser roll."
+      },
+      {
+        "name": "Main Street",
+        "price": 7.75,
+        "description": "Oven-gold turkey, cheddar cheese, cucumber, lettuce, tomato and sun-dried tomato mayo on a kaiser roll."
+      },
+      {
+        "name": "The Danburian",
+        "price": 7.75,
+        "description": "Cracked peppermill turkey, Swiss cheese, coleslaw and Russian dressing on rye bread."
+      },
+      {
+        "name": "Classic",
+        "price": 8.75,
+        "description": "Ham, Swiss cheese, bacon, lettuce, tomato and mayo on a kaiser roll."
+      },
+      {
+        "name": "Cancun Club",
+        "price": 8.75,
+        "description": "Our famous chicken salad, crispy bacon, Virginia ham with lettuce and tomato on a kaiser roll."
+      },
+      {
+        "name": "Combo",
+        "price": 9.75,
+        "description": "Ham, salami, pepperoni, provolone cheese, lettuce, tomato, roasted peppers, oil and vinegar on a sub roll."
+      },
+      {
+        "name": "Veggie Lover",
+        "price": 6.75,
+        "description": "Eggplant cutlet, lettuce, tomato, olives, onions, roasted peppers, pickles and cucumbers on a kaiser roll. Add cheese for an additional charge."
+      },
+      {
+        "name": "Dockside",
+        "price": 7.75,
+        "description": "Spicy. Tuna melt with American cheese, lettuce and tomato on a kaiser roll."
+      },
+      {
+        "name": "The New Yorker",
+        "price": 8.75,
+        "description": "Spicy. Grilled pastrami smothered with Swiss cheese and sauerkraut with spicy mustard on rye bread."
+      },
+      {
+        "name": "Moonstruck",
+        "price": 8.75,
+        "description": "Marinated grilled chicken, roasted peppers, lettuce and basil mayo on a sub roll."
+      },
+      {
+        "name": "South Of The Border",
+        "price": 8.75,
+        "description": "Spicy. Marinated grilled chicken, Monterey jack cheese topped with our fresh-made salsa on a sub roll."
+      },
+      {
+        "name": "WestConn",
+        "price": 9.75,
+        "description": "Spicy. Hot pastrami topped with 3 different cheeses, bacon, lettuce, tomato and spicy mustard on a sub roll."
+      },
+      {
+        "name": "Philly Cheesesteak",
+        "price": 9.75,
+        "description": "Spicy. Thinly-sliced roasted beef, melted cheese, onions and peppers on a sub roll."
+      },
+      {
+        "name": "The Balboa",
+        "price": 9.75,
+        "description": "Spicy. Hot roasted beef with melted cheese on a toasted garlic sub roll."
+      },
+      {
+        "name": "The Cuban",
+        "price": 9.75,
+        "description": "Our famous roasted pork, grilled ham, melted Swiss cheese, dill pickles and mustard on a sub roll."
+      }
+    ]
+  },
+  {
+    "id": "panini",
+    "label": "Panini",
+    "group": "deli",
+    "items": [
+      {
+        "name": "184",
+        "price": 7.75,
+        "description": "Grilled chicken, roasted peppers, tomatoes, fresh mozzarella, fried egg, basil and pesto."
+      },
+      {
+        "name": "Candlewood",
+        "price": 7.75,
+        "description": "Cajun turkey, pepper jack cheese, tomato, red onion and Cajun mayo."
+      },
+      {
+        "name": "HATS",
+        "price": 7.75,
+        "description": "Grilled chicken, bacon, tomatoes, chipotle and ranch."
+      },
+      {
+        "name": "Hat City",
+        "price": 7.75,
+        "description": "Salsalito turkey, cheddar cheese and homemade salsa."
+      },
+      {
+        "name": "Veggie Panini",
+        "price": 7.25,
+        "description": "Slice grilled vegetables marinated with balsamic and fresh mozzarella."
+      },
+      {
+        "name": "The Mayor",
+        "price": 8.75,
+        "description": "Chicken cutlet, bacon, melted American cheese, lettuce and Russian dressing."
+      },
+      {
+        "name": "DHS",
+        "price": 8.75,
+        "description": "Ham, turkey, bacon, Monterey jack cheese and pesto mayo."
+      },
+      {
+        "name": "The Mad Hatter",
+        "price": 8.75,
+        "description": "Mortadella, soppressata, capicola, provolone, lettuce, tomato."
+      }
+    ]
+  },
+  {
+    "id": "salads",
+    "label": "Salads",
+    "group": "deli",
+    "items": [
+      {
+        "name": "House Salad",
+        "price": 4.75,
+        "description": "Mixed field of greens, plum tomatoes, cucumbers, red onions, black olives, and dressing."
+      },
+      {
+        "name": "Chef Salad",
+        "price": 7.25,
+        "description": "Turkey, ham, Swiss and cheddar cheese in a garden salad."
+      },
+      {
+        "name": "Caesar Salad",
+        "price": 7.25,
+        "description": "Romaine lettuce, Parmesan cheese, fresh croutons and Caesar dressing."
+      },
+      {
+        "name": "Chicken, Egg Or Tuna Salad",
+        "price": 7.25,
+        "description": "Served over a bed of lettuce, tomatoes, cucumbers and black olives."
+      },
+      {
+        "name": "Cobb Salad",
+        "price": 8.25,
+        "description": "Garden salad with grilled chicken, bacon and a hard boiled egg."
+      },
+      {
+        "name": "Southwestern Chicken Salad",
+        "price": 8.25,
+        "description": "Romaine lettuce, cajun chicken, corn, tomatoes, black olives, and crunchy tortilla chips with ranch dressing."
+      }
+    ]
+  },
+  {
+    "id": "burgers",
+    "label": "Burger Corner",
+    "group": "deli",
+    "items": [
+      {
+        "name": "The All American",
+        "price": 4.75,
+        "description": "1/4 beef patty with cheese topped with lettuce and tomato."
+      },
+      {
+        "name": "Carlito's Way",
+        "price": 4.75,
+        "description": "1/4 beef patty, jalapeño cheese, hot cherry peppers. Hot sauce optional."
+      },
+      {
+        "name": "The Lone Star",
+        "price": 4.75,
+        "description": "1/4 beef patty, swiss cheese and a fried egg."
+      },
+      {
+        "name": "Chili Willie",
+        "price": 5.75,
+        "description": "1/4 beef patty, cheddar cheese and topped with our own chili."
+      },
+      {
+        "name": "Philly Cheesesteak",
+        "price": 5.75,
+        "description": "1/4 beef patty, melted cheese topped with onions and peppers."
+      }
+    ]
+  },
+  {
+    "id": "sides",
+    "label": "Pick Your Side",
+    "group": "deli",
+    "items": [
+      {
+        "name": "French Fries",
+        "price": 4.5,
+        "description": "Crispy golden strips of deliciousness served hot and seasoned to perfection."
+      },
+      {
+        "name": "Onion Rings",
+        "price": 4.5,
+        "description": "Crispy golden-fried onion rings, perfectly seasoned for a savory crunch."
+      },
+      {
+        "name": "Dill Pickle",
+        "price": 2.5,
+        "description": "Cucumbers brined in a seasoned mixture of vinegar, salt, and dill, resulting in a tangy and crunchy dill pickle."
+      },
+      {
+        "name": "Mozzarella Sticks (With Tomato Sauce) (6)",
+        "price": 5.25,
+        "description": "Breaded mozzarella cheese sticks, typically served with a side of tomato sauce for dipping."
+      },
+      {
+        "name": "Chicken Fingers (6)",
+        "price": 6.75,
+        "description": "Breaded chicken tenders, typically served with a dipping sauce."
+      },
+      {
+        "name": "Buffalo Wings (8)",
+        "price": 6.75,
+        "description": "Eight chicken wings tossed in a classic buffalo sauce, typically served with a side of blue cheese dressing."
+      },
+      {
+        "name": "Rice",
+        "price": 4.0,
+        "description": "Flavorful rice dish prepared to perfection, showcasing an ideal complement for any meal."
+      },
+      {
+        "name": "Pasta With Marinara Sauce",
+        "price": 4.0,
+        "description": "Pasta served with a classic marinara sauce, often prepared with tomatoes, garlic, and herbs."
+      },
+      {
+        "name": "Beefy Patty",
+        "price": 2.5,
+        "description": "Golden, flaky pastry encasing a seasoned beef filling, inspired by traditional Jamaican cuisine."
+      },
+      {
+        "name": "Empanadas",
+        "price": 2.0,
+        "description": "Cheese, chicken, or beef."
+      }
+    ]
+  },
+  {
+    "id": "grill",
+    "label": "Lunch From the Grill",
+    "group": "deli",
+    "items": [
+      {
+        "name": "Grilled Cheese",
+        "price": 4.0,
+        "description": "With tomato for an additional charge."
+      },
+      {
+        "name": "Hot Dog Seared On The Grill",
+        "price": 2.75,
+        "description": "With melted cheese, onions and sauerkraut or our famous chili for an additional charge."
+      },
+      {
+        "name": "Traditional Bacon, Lettuce And Tomato On A Roll",
+        "price": 5.75,
+        "description": "Crispy bacon, fresh lettuce, and ripe tomato served on a soft roll."
+      },
+      {
+        "name": "Our Own Chicken Noodle Soup 16 Oz",
+        "price": 6.0,
+        "description": "Made with tender roasted chicken and fresh noodles, simmered in a savory broth with a blend of vegetables and herbs."
+      },
+      {
+        "name": "Our Famous Chili 16 Oz",
+        "price": 5.75,
+        "description": "Our famous chili, typically includes a hearty blend of ground beef, beans, tomatoes, and a mix of spices, served in a 16 oz portion."
+      }
+    ]
+  },
+  {
+    "id": "specialty-lunch",
+    "label": "Specialty Lunch",
+    "group": "deli",
+    "items": [
+      {
+        "name": "Andrew's Special",
+        "price": 7.75,
+        "description": "Crispy buffalo chicken, lettuce, tomato, mozzarella ranch wrap."
+      },
+      {
+        "name": "Teresa To Go",
+        "price": 7.75,
+        "description": "Grilled BBQ chicken, lettuce, tomato, pepper jack cheese wrap."
+      }
+    ]
+  },
+  {
+    "id": "hot-plates",
+    "label": "Hot Plates",
+    "group": "latin",
+    "items": [
+      {
+        "name": "White Or Yellow Rice With Pinto Or Black Beans And Chicken Breast Stew",
+        "price": 8.5,
+        "description": ""
+      },
+      {
+        "name": "White Or Yellow Rice With Pinto Or Black Beans And Beef Stew",
+        "price": 9.5,
+        "description": "Tender beef stew served over white or yellow rice, accompanied by either pinto or black beans."
+      },
+      {
+        "name": "White Or Yellow Rice With Pinto Or Black Beans And Pork Ribs",
+        "price": 8.5,
+        "description": "Pork ribs served over white or yellow rice, accompanied by either pinto or black beans."
+      }
+    ]
+  }
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -75,8 +488,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [activeMenu, setActiveMenu] = useState<MenuSection>("deli");
-  const menu = menuSections[activeMenu];
+  const [activeMenu, setActiveMenu] = useState<MenuGroup>("deli");
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -165,53 +577,7 @@ function Index() {
           </div>
         </div>
 
-        <section id="menu" className="scroll-mt-28 border-b border-border bg-background px-4 py-16 sm:px-6 sm:py-24 lg:px-10">
-          <div className="mx-auto max-w-6xl">
-            <div className="max-w-2xl">
-              <p className="text-sm font-black uppercase tracking-[0.14em] text-primary">Our menu</p>
-              <h2 className="mt-3 font-display text-4xl leading-none font-black uppercase sm:text-6xl">Pick your craving.</h2>
-            </div>
-
-            <div className="mt-10 grid grid-cols-2 border-b border-border" role="tablist" aria-label="Menu categories">
-              {(Object.keys(menuSections) as MenuSection[]).map((key) => (
-                <button
-                  key={key}
-                  type="button"
-                  role="tab"
-                  aria-selected={activeMenu === key}
-                  aria-controls="menu-panel"
-                  onClick={() => setActiveMenu(key)}
-                  className={`min-h-16 border-b-4 px-3 py-3 text-left text-sm font-extrabold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:text-lg ${
-                    activeMenu === key
-                      ? "border-primary text-primary"
-                      : "border-transparent text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {menuSections[key].label}
-                  {key === "latin" && <span className="block text-xs font-bold sm:inline sm:pl-1">Hot Food</span>}
-                </button>
-              ))}
-            </div>
-
-            <div id="menu-panel" role="tabpanel" className="grid gap-10 py-10 md:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] md:py-14">
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.14em] text-primary">{menu.eyebrow}</p>
-                <h3 className="mt-3 max-w-sm font-display text-3xl leading-tight font-black uppercase sm:text-4xl">{menu.title}</h3>
-              </div>
-              <div className="divide-y divide-border border-y border-border">
-                {menu.items.map((item, index) => (
-                  <article key={item.name} className="grid grid-cols-[auto_minmax(0,1fr)] gap-4 py-6 sm:gap-6">
-                    <span className="font-display text-sm font-black text-primary">0{index + 1}</span>
-                    <div className="min-w-0">
-                      <h4 className="font-display text-xl font-black uppercase sm:text-2xl">{item.name}</h4>
-                      <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">{item.description}</p>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+        <RestaurantMenu categories={MENU_CATEGORIES} group={activeMenu} onGroupChange={setActiveMenu} />
 
         <section id="location" className="scroll-mt-28 bg-foreground text-background">
           <div className="mx-auto grid max-w-7xl lg:grid-cols-2">
