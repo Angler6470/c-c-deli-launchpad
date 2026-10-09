@@ -64,7 +64,7 @@ export function RestaurantMenu({ categories, group, onGroupChange }: {
         <div className="mt-7 grid gap-8 lg:grid-cols-[230px_minmax(0,1fr)] lg:gap-12">
           <aside>
             <div className="lg:hidden">
-              <Select value={selected?.id} onValueChange={(value) => { setSelectedId(value); setSearch(""); }}>
+              <Select value={selected?.id ?? ""} onValueChange={(value) => { setSelectedId(value); setSearch(""); }}>
                 <SelectTrigger aria-label="Dish category" className="h-12 bg-card font-bold shadow-none"><SelectValue /></SelectTrigger>
                 <SelectContent>{groupCategories.map((category) => <SelectItem key={category.id} value={category.id}>{category.label}</SelectItem>)}</SelectContent>
               </Select>
