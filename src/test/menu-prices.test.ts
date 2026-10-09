@@ -384,8 +384,8 @@ describe("Approved first-listed menu prices", () => {
     const item = MENU_CATEGORIES.find((category) => category.id === categoryId)?.items.find((dish) => dish.name === name);
     expect(item?.price).toBe(price);
   });
-  it("contains all 70 distinct category-specific dishes without duplicate All Day listings", () => {
-    expect(MENU_CATEGORIES.flatMap((category) => category.items)).toHaveLength(70);
+  it("contains all 75 distinct category-specific dishes without duplicate All Day listings", () => {
+    expect(MENU_CATEGORIES.flatMap((category) => category.items)).toHaveLength(75);
     expect(new Set(MENU_CATEGORIES.map((category) => category.id)).size).toBe(11);
   });
 });
