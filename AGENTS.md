@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Keep editable restaurant content in clearly named constants at the top of the home route so daily updates stay simple.
+- Keep menu browsing in a dedicated presentation component receiving the home route's typed menu constants; this separates daily content changes from category and search controls.
