@@ -94,6 +94,9 @@
   --hero-muted: oklch(0.97 0.01 75);
   --hero-surface: oklch(0.12 0.02 45 / 82%);
   --hero-overlay: linear-gradient(0deg, oklch(0.1 0.02 45 / 92%) 0%, oklch(0.1 0.02 45 / 72%) 55%, oklch(0.1 0.02 45 / 20%) 100%);
+  --deli-overlay: linear-gradient(90deg, oklch(0.16 0.018 47) 0%, oklch(0.16 0.018 47 / 97%) 28%, oklch(0.16 0.018 47 / 80%) 43%, oklch(0.16 0.018 47 / 12%) 72%);
+  --deli-overlay-mobile: linear-gradient(0deg, oklch(0.16 0.018 47) 0%, oklch(0.16 0.018 47 / 98%) 48%, oklch(0.16 0.018 47 / 65%) 72%, oklch(0.16 0.018 47 / 5%) 100%);
+  --shadow-logo: 0 6px 24px oklch(0.1 0 0 / 30%);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -168,6 +171,21 @@
   background-size: 28px 28px;
 }
 
+.deli-hero-photo { object-position: 65% center; }
+.deli-hero-shade { background: var(--deli-overlay); }
+.deli-brand { font-size: 128px; }
+.deli-logo-stamp { transform: rotate(8deg); box-shadow: var(--shadow-logo); }
+.deli-hero-copy { animation: deli-arrive 650ms ease-out both; }
+@keyframes deli-arrive {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 639px) {
+  .deli-brand { font-size: 94px; }
+  .deli-hero-photo { object-position: 60% top; }
+  .deli-hero-shade { background: var(--deli-overlay-mobile); }
+}
 @media (prefers-reduced-motion: reduce) {
+  .deli-hero-copy { animation: none; }
   html { scroll-behavior: auto; }
 }

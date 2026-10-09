@@ -3,9 +3,12 @@ import { ArrowDown, Clock3, MapPin, Phone, ShoppingBag } from "lucide-react";
 import { useState } from "react";
 import heroImage from "../assets/cc-deli-hero.jpg";
 import logo from "../assets/c_c_logo.jpg.asset.json";
+import { Button } from "@/components/ui/button";
 
 const DAILY_SPECIAL = "Today’s hot special: Ask us what’s fresh from the kitchen";
 const PHONE_NUMBER = "+18605550101";
+const HERO_TAGLINE = "Deli classics. Latin soul.";
+const HERO_DESCRIPTION = "Stacked deli sandwiches and homestyle Latin hot food, made fresh for your day.";
 
 const menuSections = {
   deli: {
@@ -108,44 +111,59 @@ function Index() {
       </header>
 
       <main id="top">
-        <section className="relative isolate min-h-[calc(100svh-6rem)] overflow-hidden bg-foreground sm:min-h-[calc(100svh-7rem)]">
+        <section className="deli-hero relative isolate overflow-hidden bg-foreground">
           <img
             src={heroImage}
             alt="An overstuffed Italian deli sandwich with fried plantains"
             width={1600}
             height={1008}
             fetchPriority="high"
-            className="absolute inset-0 h-full w-full object-cover object-center"
+            className="deli-hero-photo absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0" style={{ backgroundImage: "var(--hero-overlay)" }} />
-          <div className="relative mx-auto flex min-h-[calc(100svh-6rem)] max-w-7xl items-end px-4 py-12 sm:min-h-[calc(100svh-7rem)] sm:items-center sm:px-6 sm:py-20 lg:px-10">
-            <div className="max-w-2xl text-hero-foreground [text-shadow:0_2px_12px_rgb(0_0_0/0.6)]">
-              <p className="mb-4 text-sm font-black uppercase tracking-[0.14em] text-special sm:text-base">
-                New Milford’s neighborhood deli
+          <div className="deli-hero-shade absolute inset-0" />
+          <div className="relative mx-auto flex max-w-7xl px-5 pb-10 pt-44 sm:px-6 sm:pb-14 sm:pt-14 lg:px-10 lg:py-16">
+            <div className="deli-hero-copy max-w-xl text-hero-foreground">
+              <p className="mb-5 flex items-center gap-3 text-xs font-extrabold uppercase sm:text-sm">
+                <span className="h-0.5 w-8 bg-special" aria-hidden="true" />
+                New Milford, Connecticut
               </p>
-              <h1 className="font-display text-5xl leading-[0.95] font-black uppercase sm:text-7xl lg:text-8xl">
-                Big flavor.<br />No waiting around.
+              <h1 className="font-display font-black uppercase">
+                <span className="deli-brand block leading-none">C&amp;C</span>
+                <span className="mt-1 block text-3xl leading-tight sm:text-4xl lg:text-5xl">Delicatessen<span className="text-special">.</span></span>
               </h1>
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-hero-muted sm:text-xl">
-                Stacked deli sandwiches and homestyle Latin hot food, made fresh for your day.
+              <p className="mt-6 text-2xl font-extrabold leading-tight text-special sm:text-3xl">{HERO_TAGLINE}</p>
+              <p className="mt-4 max-w-sm text-base leading-relaxed text-hero-muted sm:text-lg">
+                {HERO_DESCRIPTION}
               </p>
-              <div className="mt-8 flex flex-col gap-3 min-[420px]:flex-row">
-                <a
-                  href="#menu"
-                  className="inline-flex min-h-14 items-center justify-center gap-2 rounded-md bg-primary px-6 text-base font-extrabold text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                >
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Button asChild size="lg" className="min-h-14 px-5 text-base font-extrabold">
+                <a href="#menu">
                   <ShoppingBag aria-hidden="true" className="size-5" /> Order Online
                 </a>
-                <a
-                  href="#menu"
-                  className="inline-flex min-h-14 items-center justify-center gap-2 rounded-md border border-hero-foreground/60 bg-hero-surface px-6 text-base font-extrabold text-hero-foreground backdrop-blur-sm transition-colors hover:bg-hero-surface/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                >
+                </Button>
+                <Button asChild variant="outline" size="lg" className="min-h-14 border-hero-foreground/60 bg-hero-surface px-5 text-base font-extrabold text-hero-foreground hover:bg-hero-surface hover:text-special">
+                <a href="#menu">
                   View Menu <ArrowDown aria-hidden="true" className="size-5" />
                 </a>
+                </Button>
               </div>
             </div>
+            <img src={logo.url} alt="" width={144} height={144} className="deli-logo-stamp absolute right-6 top-7 size-28 rounded-full border-4 border-hero-foreground sm:right-8 sm:top-10 sm:size-36 lg:right-14" />
           </div>
         </section>
+
+        <div className="border-b border-border bg-special text-foreground">
+          <div className="mx-auto grid max-w-7xl grid-cols-2">
+            {(["deli", "latin"] as const).map((key) => (
+              <Button key={key} asChild variant="ghost" className="h-auto min-h-20 justify-between gap-3 rounded-none px-5 py-4 text-left hover:bg-foreground/5 sm:min-h-24 sm:px-10 first:border-r first:border-foreground/20">
+                <a href="#menu" onClick={() => setActiveMenu(key)}>
+                  <span className="whitespace-normal"><span className="block text-[10px] font-bold uppercase sm:text-xs">{key === "deli" ? "The sandwich counter" : "The hot food counter"}</span><span className="mt-1 block font-display text-base uppercase sm:text-2xl">{key === "deli" ? "Classic Deli" : "Latin & Caribbean"}</span></span>
+                  <ArrowDown aria-hidden="true" className="shrink-0" />
+                </a>
+              </Button>
+            ))}
+          </div>
+        </div>
 
         <section id="menu" className="scroll-mt-28 border-b border-border bg-background px-4 py-16 sm:px-6 sm:py-24 lg:px-10">
           <div className="mx-auto max-w-6xl">
