@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowDown, ArrowRight, Clock3, MapPin, Phone, ShoppingBag, Star } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import heroImage from "../assets/cc-deli-hero.jpg";
 import logo from "../assets/c_c_logo.jpg.asset.json";
 import { Button } from "@/components/ui/button";
