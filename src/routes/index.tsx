@@ -620,7 +620,7 @@ function Index() {
               aria-label="Customer favorites, scrolls automatically"
             >
               {[...FAVORITES, ...FAVORITES].map((fav, i) => (
-                <a key={`${fav.name}-${i}`} href="#menu" onClick={() => setActiveMenu(fav.group)} className="group flex min-h-32 w-56 shrink-0 snap-start flex-col justify-between rounded-md border border-border bg-card p-4 transition-colors hover:border-primary focus-visible:outline-2 focus-visible:outline-primary sm:w-64">
+                <a key={`${fav.name}-${i}`} href="#menu" onClick={() => setActiveMenu(fav.group)} className="group flex min-h-32 w-56 shrink-0 flex-col justify-between rounded-md border border-border bg-card p-4 transition-colors hover:border-primary focus-visible:outline-2 focus-visible:outline-primary sm:w-64">
                   <span className="text-[11px] font-bold uppercase text-muted-foreground">{fav.tag}</span>
                   <span className="mt-2 font-display text-base uppercase leading-tight sm:text-lg">{fav.name}</span>
                   <span className="mt-3 flex items-center justify-between text-sm font-extrabold text-primary tabular-nums">${fav.price.toFixed(2)}<ArrowRight aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-0.5" /></span>
