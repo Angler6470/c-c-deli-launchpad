@@ -11,3 +11,4 @@
 
 - Keep editable restaurant content in clearly named constants at the top of the home route so daily updates stay simple.
 - Keep menu browsing in a dedicated presentation component receiving the home route's typed menu constants; this separates daily content changes from category and search controls.
+- Prefer third-party embeds that need no key or referrer allowlist, so the site renders on every host it is deployed to instead of only the preview domain.
