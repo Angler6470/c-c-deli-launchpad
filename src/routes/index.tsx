@@ -613,9 +613,13 @@ function Index() {
                 <h2 id="favorites-title" className="mt-2 font-display text-2xl uppercase leading-tight sm:text-4xl">What regulars order</h2>
               </div>
             </div>
-            <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+            <div
+              ref={favoritesRef}
+              className="mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              aria-label="Customer favorites, scrolls automatically"
+            >
               {FAVORITES.map((fav) => (
-                <a key={fav.name} href="#menu" onClick={() => setActiveMenu(fav.group)} className="group flex min-h-32 flex-col justify-between rounded-md border border-border bg-card p-4 transition-colors hover:border-primary focus-visible:outline-2 focus-visible:outline-primary">
+                <a key={fav.name} href="#menu" onClick={() => setActiveMenu(fav.group)} className="group flex min-h-32 w-56 shrink-0 snap-start flex-col justify-between rounded-md border border-border bg-card p-4 transition-colors hover:border-primary focus-visible:outline-2 focus-visible:outline-primary sm:w-64">
                   <span className="text-[11px] font-bold uppercase text-muted-foreground">{fav.tag}</span>
                   <span className="mt-2 font-display text-base uppercase leading-tight sm:text-lg">{fav.name}</span>
                   <span className="mt-3 flex items-center justify-between text-sm font-extrabold text-primary tabular-nums">${fav.price.toFixed(2)}<ArrowRight aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-0.5" /></span>
