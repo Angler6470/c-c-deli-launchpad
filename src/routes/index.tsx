@@ -496,6 +496,41 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [activeMenu, setActiveMenu] = useState<MenuGroup>("deli");
+  const favoritesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const track = favoritesRef.current;
+    if (!track) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let paused = false;
+    let raf = 0;
+    const pause = () => { paused = true; };
+    const resume = () => { paused = false; };
+
+    const step = () => {
+      if (!paused) {
+        track.scrollLeft += 0.45;
+        if (track.scrollLeft >= track.scrollWidth - track.clientWidth - 1) {
+          track.scrollLeft = 0;
+        }
+      }
+      raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+
+    track.addEventListener("pointerenter", pause);
+    track.addEventListener("pointerleave", resume);
+    track.addEventListener("touchstart", pause, { passive: true });
+    track.addEventListener("touchend", resume, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      track.removeEventListener("pointerenter", pause);
+      track.removeEventListener("pointerleave", resume);
+      track.removeEventListener("touchstart", pause);
+      track.removeEventListener("touchend", resume);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
