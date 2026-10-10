@@ -500,26 +500,23 @@ function Index() {
 
   useEffect(() => {
     const track = favoritesRef.current;
-    (window as unknown as Record<string, unknown>).__favEffect = track ? "ran" : "no-ref";
     if (!track) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let paused = false;
     let raf = 0;
+    let pos = 0;
     const pause = () => { paused = true; };
     const resume = () => { paused = false; };
 
     const step = () => {
       if (!paused) {
-        const w = window as unknown as Record<string, unknown>;
-        w.__favTick = ((w.__favTick as number) || 0) + 1;
-        w.__favSL = track.scrollLeft;
-        w.__favDetached = !track.isConnected;
-        track.scrollLeft += 0.45;
+        pos += 0.45;
         const half = track.scrollWidth / 2;
-        if (track.scrollLeft >= half) {
-          track.scrollLeft -= half;
-        }
+        if (pos >= half) pos -= half;
+        track.scrollLeft = Math.round(pos);
+      } else {
+        pos = track.scrollLeft;
       }
       raf = requestAnimationFrame(step);
     };
