@@ -652,12 +652,15 @@ function Index() {
                 </div>
               </div>
             </div>
-            <div className="map-grid flex min-h-80 items-center justify-center p-8 lg:min-h-full" aria-label="Google Maps placeholder">
-              <div className="border border-foreground/15 bg-background px-8 py-7 text-center text-foreground shadow-xl">
-                <MapPin aria-hidden="true" className="mx-auto size-8 text-primary" />
-                <p className="mt-3 font-display text-lg font-black uppercase">40 Danbury Rd</p>
-                <p className="mt-1 text-sm text-muted-foreground">Google Map coming soon</p>
-              </div>
+            <div className="min-h-80 lg:min-h-full">
+              <iframe
+                title="Map to C&C Delicatessen, 40 Danbury Rd, New Milford, CT"
+                src={MAPS_EMBED_URL}
+                className="h-full min-h-80 w-full border-0"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
           </div>
         </section>
