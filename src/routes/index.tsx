@@ -500,6 +500,7 @@ function Index() {
 
   useEffect(() => {
     const track = favoritesRef.current;
+    (window as unknown as Record<string, unknown>).__favEffect = track ? "ran" : "no-ref";
     if (!track) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
