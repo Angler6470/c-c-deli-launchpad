@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowDown, ArrowRight, Clock3, MapPin, Phone, ShoppingBag, Star } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import heroImage from "../assets/cc-deli-hero.jpg";
 import logo from "../assets/c_c_logo.jpg.asset.json";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,7 @@ const DAILY_SPECIAL = "Today’s hot special: Ask us what’s fresh from the kit
 const PHONE_NUMBER = "+18605550101";
 const HERO_TAGLINE = "Deli classics. Latin soul.";
 const HERO_DESCRIPTION = "Stacked deli sandwiches and homestyle Latin hot food, made fresh for your day.";
+const MAPS_EMBED_URL = `https://www.google.com/maps/embed/v1/place?key=${import.meta.env["VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY"]}&q=${encodeURIComponent("40 Danbury Rd, New Milford, CT")}&zoom=16`;
 const FAVORITES: { name: string; tag: string; price: number; group: MenuGroup }[] = [
   { name: "Bacon, Egg & Cheese", tag: "Breakfast", price: 4.0, group: "breakfast" },
   { name: "The Cuban", tag: "Deli sandwich", price: 9.75, group: "deli" },
@@ -495,6 +496,44 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [activeMenu, setActiveMenu] = useState<MenuGroup>("deli");
+  const favoritesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const track = favoritesRef.current;
+    if (!track) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let paused = false;
+    let raf = 0;
+    let pos = 0;
+    const pause = () => { paused = true; };
+    const resume = () => { paused = false; };
+
+    const step = () => {
+      if (!paused) {
+        pos += 0.45;
+        const half = track.scrollWidth / 2;
+        if (pos >= half) pos -= half;
+        track.scrollLeft = Math.round(pos);
+      } else {
+        pos = track.scrollLeft;
+      }
+      raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+
+    track.addEventListener("pointerenter", pause);
+    track.addEventListener("pointerleave", resume);
+    track.addEventListener("touchstart", pause, { passive: true });
+    track.addEventListener("touchend", resume, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      track.removeEventListener("pointerenter", pause);
+      track.removeEventListener("pointerleave", resume);
+      track.removeEventListener("touchstart", pause);
+      track.removeEventListener("touchend", resume);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -577,9 +616,13 @@ function Index() {
                 <h2 id="favorites-title" className="mt-2 font-display text-2xl uppercase leading-tight sm:text-4xl">What regulars order</h2>
               </div>
             </div>
-            <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
-              {FAVORITES.map((fav) => (
-                <a key={fav.name} href="#menu" onClick={() => setActiveMenu(fav.group)} className="group flex min-h-32 flex-col justify-between rounded-md border border-border bg-card p-4 transition-colors hover:border-primary focus-visible:outline-2 focus-visible:outline-primary">
+            <div
+              ref={favoritesRef}
+              className="mt-6 flex gap-3 overflow-x-auto pb-2 [scroll-behavior:auto] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              aria-label="Customer favorites, scrolls automatically"
+            >
+              {[...FAVORITES, ...FAVORITES].map((fav, i) => (
+                <a key={`${fav.name}-${i}`} href="#menu" onClick={() => setActiveMenu(fav.group)} className="group flex min-h-32 w-56 shrink-0 flex-col justify-between rounded-md border border-border bg-card p-4 transition-colors hover:border-primary focus-visible:outline-2 focus-visible:outline-primary sm:w-64">
                   <span className="text-[11px] font-bold uppercase text-muted-foreground">{fav.tag}</span>
                   <span className="mt-2 font-display text-base uppercase leading-tight sm:text-lg">{fav.name}</span>
                   <span className="mt-3 flex items-center justify-between text-sm font-extrabold text-primary tabular-nums">${fav.price.toFixed(2)}<ArrowRight aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-0.5" /></span>
@@ -611,12 +654,15 @@ function Index() {
                 </div>
               </div>
             </div>
-            <div className="map-grid flex min-h-80 items-center justify-center p-8 lg:min-h-full" aria-label="Google Maps placeholder">
-              <div className="border border-foreground/15 bg-background px-8 py-7 text-center text-foreground shadow-xl">
-                <MapPin aria-hidden="true" className="mx-auto size-8 text-primary" />
-                <p className="mt-3 font-display text-lg font-black uppercase">40 Danbury Rd</p>
-                <p className="mt-1 text-sm text-muted-foreground">Google Map coming soon</p>
-              </div>
+            <div className="min-h-80 lg:min-h-full">
+              <iframe
+                title="Map to C&C Delicatessen, 40 Danbury Rd, New Milford, CT"
+                src={MAPS_EMBED_URL}
+                className="h-full min-h-80 w-full border-0"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
           </div>
         </section>
