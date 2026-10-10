@@ -511,6 +511,10 @@ function Index() {
 
     const step = () => {
       if (!paused) {
+        const w = window as unknown as Record<string, unknown>;
+        w.__favTick = ((w.__favTick as number) || 0) + 1;
+        w.__favSL = track.scrollLeft;
+        w.__favDetached = !track.isConnected;
         track.scrollLeft += 0.45;
         const half = track.scrollWidth / 2;
         if (track.scrollLeft >= half) {
