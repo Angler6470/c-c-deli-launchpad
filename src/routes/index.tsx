@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowDown, ArrowRight, Clock3, MapPin, Phone, ShoppingBag, Star } from "lucide-react";
+import { ArrowDown, ArrowRight, Clock3, ExternalLink, MapPin, Phone, ShoppingBag, Star } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import heroImage from "../assets/cc-deli-hero.jpg";
 import logo from "../assets/logo.jpg";
@@ -7,7 +7,9 @@ import { Button } from "@/components/ui/button";
 import { RestaurantMenu, type MenuCategory, type MenuGroup } from "@/components/restaurant-menu";
 
 const DAILY_SPECIAL = "Today’s hot special: Ask us what’s fresh from the kitchen";
-const PHONE_NUMBER = "+18605550101";
+const PHONE_NUMBER = "+18607996336";
+const ORDER_ONLINE_URL = "https://www.grubhub.com/restaurant/c--c-delicatessen-of-new-milford-40-danbury-rd-new-milford/14024672";
+const ORDER_PROVIDER = "Grubhub";
 const HERO_TAGLINE = "Deli classics. Latin soul.";
 const HERO_DESCRIPTION = "Stacked deli sandwiches and homestyle Latin hot food, made fresh for your day.";
 const MAPS_EMBED_URL = "https://www.google.com/maps?q=40+Danbury+Rd,+New+Milford,+CT&output=embed";
@@ -545,6 +547,7 @@ function Index() {
           </a>
           <div className="flex shrink-0 items-center gap-2 sm:gap-6">
             <nav aria-label="Primary navigation" className="hidden items-center gap-6 md:flex">
+              <a className="text-sm font-bold uppercase text-primary hover:text-primary/80" href={ORDER_ONLINE_URL} target="_blank" rel="noopener noreferrer">Order</a>
               <a className="text-sm font-bold uppercase hover:text-primary" href="#menu">Menu</a>
               <a className="text-sm font-bold uppercase hover:text-primary" href="#location">Location</a>
             </nav>
@@ -557,7 +560,8 @@ function Index() {
             </a>
           </div>
         </div>
-        <nav aria-label="Mobile navigation" className="grid grid-cols-2 border-t border-border md:hidden">
+        <nav aria-label="Mobile navigation" className="grid grid-cols-3 border-t border-border md:hidden">
+          <a className="border-r border-border py-2 text-center text-xs font-black uppercase text-primary" href={ORDER_ONLINE_URL} target="_blank" rel="noopener noreferrer">Order</a>
           <a className="min-h-10 border-r border-border py-2 text-center text-xs font-black uppercase" href="#menu">Menu</a>
           <a className="min-h-10 py-2 text-center text-xs font-black uppercase" href="#location">Location</a>
         </nav>
@@ -593,7 +597,7 @@ function Index() {
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <Button asChild size="lg" className="min-h-14 px-5 text-base font-extrabold">
-                <a href="#menu">
+                <a href={ORDER_ONLINE_URL} target="_blank" rel="noopener noreferrer">
                   <ShoppingBag aria-hidden="true" className="size-5" /> Order Online
                 </a>
                 </Button>
