@@ -10,7 +10,7 @@ const DAILY_SPECIAL = "Today’s hot special: Ask us what’s fresh from the kit
 const PHONE_NUMBER = "+18605550101";
 const HERO_TAGLINE = "Deli classics. Latin soul.";
 const HERO_DESCRIPTION = "Stacked deli sandwiches and homestyle Latin hot food, made fresh for your day.";
-const MAPS_EMBED_URL = `https://www.google.com/maps/embed/v1/place?key=${import.meta.env["VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY"]}&q=${encodeURIComponent("40 Danbury Rd, New Milford, CT")}&zoom=16`;
+const MAPS_EMBED_URL = "https://www.google.com/maps?q=40+Danbury+Rd,+New+Milford,+CT&output=embed";
 const FAVORITES: { name: string; tag: string; price: number; group: MenuGroup }[] = [
   { name: "Bacon, Egg & Cheese", tag: "Breakfast", price: 4.0, group: "breakfast" },
   { name: "The Cuban", tag: "Deli sandwich", price: 9.75, group: "deli" },
