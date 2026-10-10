@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowDown, Clock3, MapPin, Phone, ShoppingBag } from "lucide-react";
+import { ArrowDown, ArrowRight, Clock3, MapPin, Phone, ShoppingBag, Star } from "lucide-react";
 import { useState } from "react";
 import heroImage from "../assets/cc-deli-hero.jpg";
 import logo from "../assets/c_c_logo.jpg.asset.json";
@@ -10,6 +10,12 @@ const DAILY_SPECIAL = "Today’s hot special: Ask us what’s fresh from the kit
 const PHONE_NUMBER = "+18605550101";
 const HERO_TAGLINE = "Deli classics. Latin soul.";
 const HERO_DESCRIPTION = "Stacked deli sandwiches and homestyle Latin hot food, made fresh for your day.";
+const FAVORITES: { name: string; tag: string; price: number; group: MenuGroup }[] = [
+  { name: "Bacon, Egg & Cheese", tag: "Breakfast", price: 4.0, group: "breakfast" },
+  { name: "The Cuban", tag: "Deli sandwich", price: 9.75, group: "deli" },
+  { name: "Empanadas", tag: "Snack", price: 2.0, group: "deli" },
+  { name: "Beef Stew Plate", tag: "Latin hot food", price: 9.5, group: "latin" },
+];
 
 export const MENU_CATEGORIES: MenuCategory[] = [
   {
@@ -535,8 +541,7 @@ function Index() {
           <div className="deli-hero-shade absolute inset-0" />
           <div className="relative mx-auto flex max-w-7xl px-5 pb-10 pt-44 sm:px-6 sm:pb-14 sm:pt-14 lg:px-10 lg:py-16">
             <div className="deli-hero-copy max-w-xl text-hero-foreground">
-              <p className="mb-5 flex items-center gap-3 text-xs font-extrabold uppercase sm:text-sm">
-                <span className="h-0.5 w-8 bg-special" aria-hidden="true" />
+              <p className="mb-5 text-xs font-extrabold uppercase sm:text-sm">
                 New Milford, Connecticut
               </p>
               <h1 className="font-display font-black uppercase">
@@ -564,18 +569,26 @@ function Index() {
           </div>
         </section>
 
-        <div className="border-b border-border bg-special text-foreground">
-          <div className="mx-auto grid max-w-7xl grid-cols-2">
-            {(["deli", "latin"] as const).map((key) => (
-              <Button key={key} asChild variant="ghost" className="h-auto min-h-20 justify-between gap-3 rounded-none px-5 py-4 text-left hover:bg-foreground/5 sm:min-h-24 sm:px-10 first:border-r first:border-foreground/20">
-                <a href="#menu" onClick={() => setActiveMenu(key)}>
-                  <span className="whitespace-normal"><span className="block text-[10px] font-bold uppercase sm:text-xs">{key === "deli" ? "The sandwich counter" : "The hot food counter"}</span><span className="mt-1 block font-display text-base uppercase sm:text-2xl">{key === "deli" ? "Classic Deli" : "Latin & Caribbean"}</span></span>
-                  <ArrowDown aria-hidden="true" className="shrink-0" />
+        <section aria-labelledby="favorites-title" className="border-b border-border bg-background px-4 py-10 sm:px-6 sm:py-12 lg:px-10">
+          <div className="mx-auto max-w-6xl">
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <p className="flex items-center gap-2 text-xs font-extrabold uppercase text-primary"><Star aria-hidden="true" className="size-4 fill-primary" /> Customer favorites</p>
+                <h2 id="favorites-title" className="mt-2 font-display text-2xl uppercase leading-tight sm:text-4xl">What regulars order</h2>
+              </div>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+              {FAVORITES.map((fav) => (
+                <a key={fav.name} href="#menu" onClick={() => setActiveMenu(fav.group)} className="group flex min-h-32 flex-col justify-between rounded-md border border-border bg-card p-4 transition-colors hover:border-primary focus-visible:outline-2 focus-visible:outline-primary">
+                  <span className="text-[11px] font-bold uppercase text-muted-foreground">{fav.tag}</span>
+                  <span className="mt-2 font-display text-base uppercase leading-tight sm:text-lg">{fav.name}</span>
+                  <span className="mt-3 flex items-center justify-between text-sm font-extrabold text-primary tabular-nums">${fav.price.toFixed(2)}<ArrowRight aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-0.5" /></span>
                 </a>
-              </Button>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        </section>
+
 
         <RestaurantMenu categories={MENU_CATEGORIES} group={activeMenu} onGroupChange={setActiveMenu} />
 
