@@ -511,8 +511,9 @@ function Index() {
     const step = () => {
       if (!paused) {
         track.scrollLeft += 0.45;
-        if (track.scrollLeft >= track.scrollWidth - track.clientWidth - 1) {
-          track.scrollLeft = 0;
+        const half = track.scrollWidth / 2;
+        if (track.scrollLeft >= half) {
+          track.scrollLeft -= half;
         }
       }
       raf = requestAnimationFrame(step);
