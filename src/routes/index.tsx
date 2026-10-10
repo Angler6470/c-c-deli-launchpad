@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArrowDown, ArrowRight, Clock3, MapPin, Phone, ShoppingBag, Star } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import heroImage from "../assets/cc-deli-hero.jpg";
-import logo from "../assets/c_c_logo.jpg.asset.json";
+import logo from "../assets/logo.jpg";
 import { Button } from "@/components/ui/button";
 import { RestaurantMenu, type MenuCategory, type MenuGroup } from "@/components/restaurant-menu";
 
@@ -540,7 +540,7 @@ function Index() {
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
         <div className="mx-auto grid h-16 max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 sm:h-20 sm:px-6 lg:px-10">
           <a href="#top" className="flex min-w-0 items-center gap-2 font-display text-lg leading-none font-black uppercase sm:text-2xl">
-            <img src={logo.url} alt="C&C Delicatessen logo" width={48} height={48} className="size-11 shrink-0 rounded-full sm:size-14" />
+            <img src={logo} alt="C&C Delicatessen logo" width={48} height={48} className="size-11 shrink-0 rounded-full sm:size-14" />
             <span className="truncate"><span className="text-primary">C&amp;C</span> Deli</span>
           </a>
           <div className="flex shrink-0 items-center gap-2 sm:gap-6">
@@ -604,7 +604,7 @@ function Index() {
                 </Button>
               </div>
             </div>
-            <img src={logo.url} alt="" width={144} height={144} className="deli-logo-stamp absolute right-6 top-7 size-28 rounded-full border-4 border-hero-foreground sm:right-8 sm:top-10 sm:size-36 lg:right-14" />
+            <img src={logo} alt="" width={144} height={144} className="deli-logo-stamp absolute right-6 top-7 size-28 rounded-full border-4 border-hero-foreground sm:right-8 sm:top-10 sm:size-36 lg:right-14" />
           </div>
         </section>
 
